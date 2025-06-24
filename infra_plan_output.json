@@ -1,0 +1,5 @@
+{
+  "chain": "solana",
+  "service": "fastapi",
+  "intent": "Deploy a Solana NFT rental protocol"
+}
