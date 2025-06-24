@@ -1,198 +1,255 @@
-# Zeus – Autonomous Web3 Deployment Agent
+Zeus – Autonomous Web3 Deployment Agent
 
-Zeus converts plain-language requirements into secure, reproducible infrastructure for decentralised applications—then validates everything with containerised dry-runs and optional Solana wallet audits.  
-It is **local-first**, **cloud-agnostic**, and fully scriptable.
+Zeus is an AI‑assisted, local‑first framework that transforms plain‑language requirements into complete, reproducible infrastructure for decentralised applications.  It generates Docker‑based blueprints, audits Solana wallets, and performs sandboxed dry‑run simulations—helping builders ship production‑ready deployments with confidence and zero cloud lock‑in.
 
----
+Table of Contents
 
-## 0. Executive Overview
+Key Objectives
 
-| | |
-|---|---|
-| **Target users** | Web3 engineers, DevOps leads, hackathon teams |
-| **Primary goal** | Eliminate hand-written deployment scripts |
-| **Chains** | Solana (native), EVM (adapters), Cosmos (2026 roadmap) |
-| **Infra outputs** | Docker, Nixpacks, Render, Railway, Terraform |
-| **License** | MIT – free for commercial and open-source use |
+Feature Overview
 
----
+System Architecture
 
-## 1. Badges & Status
+Directory Structure
 
-| Build | Docs | Coverage | Package |
-|------|------|----------|---------|
-| ![](https://img.shields.io/github/actions/workflow/status/USER/Zeus/ci.yml?label=CI) | ![](https://img.shields.io/github/actions/workflow/status/USER/Zeus/docs.yml?label=Docs) | ![](https://img.shields.io/codecov/c/github/USER/Zeus) | ![](https://img.shields.io/pypi/v/zeus-pet-llm) |
+Dependency Management
 
-> **Note** Replace `USER` with your GitHub handle once pushed.
+Installation
 
----
+Usage Examples
 
-## 2. Quick Start
+Documentation
 
-```bash
-# clone & install
-git clone https://github.com/USER/Zeus.git
+Roadmap
+
+Contributing
+
+Security
+
+Troubleshooting
+
+License
+
+Key Objectives
+
+Goal
+
+Description
+
+Reduce DevOps toil
+
+Convert human intent into infrastructure‑as‑code automatically.
+
+Safer on‑chain launches
+
+Analyse Solana wallets for risk and mis‑deploy patterns.
+
+Local‑first workflows
+
+All generation and simulation run on your machine; no vendor lock‑in.
+
+Extensibility
+
+Add new chains or exporters through the plugin API.
+
+Feature Overview
+
+Category
+
+Capability
+
+Status
+
+LLM planner
+
+Natural‑language prompt → Dockerfile · GitHub Actions · Terraform
+
+Stable
+
+Dry‑run simulator
+
+Containerised build and health checks
+
+Stable
+
+Solana wallet audit
+
+Transaction risk scoring, token map, fee analysis
+
+Stable
+
+Anchor auto‑deploy
+
+Compile and push smart contracts to Devnet
+
+Beta
+
+EVM adapters
+
+Hardhat / Foundry pipeline
+
+Alpha
+
+System Architecture
+
+flowchart TD
+  A[User Prompt] --> B[LLM Planner]
+  B --> C[MCP Config]
+  C --> D[Dry‑Run Simulator]
+  D --> E[Artifact Store]
+  C --> F[Chain Adapter]
+  F --> G[Solana Devnet]
+  D --> H[Report Engine]
+  subgraph Audit
+    I[Wallet Scanner] --> B
+  end
+
+Each component is isolated; adapters can be swapped via Python entry‑points.
+
+Directory Structure
+
+Zeus/
+├─ cli/                   Command‑line entry points
+├─ agent_core/           LLM planner · simulator · reporters
+├─ chain/
+│  ├─ solana/            Devnet deployer
+│  └─ evm/               Hardhat placeholder
+├─ tools/                Wallet audit, exporters, helpers
+├─ docs/                 Additional documentation (MkDocs site)
+├─ tests/                Pytest suite
+├─ pyproject.toml        Modern build + dependency metadata
+├─ requirements.txt      Locked minimal runtime set
+└─ README.md
+
+Dependency Management
+
+Primary file: pyproject.toml – declared dependencies, metadata, build backend.
+
+Secondary lock: requirements.txt – exact versions for CI images.
+
+To add a library:
+
+[project.dependencies]
+rich = "*"
+
+then run pip install -e ..
+
+Installation
+
+Prerequisites
+
+Python 3.10+
+
+Docker 20.10+
+
+(Optional) Rust toolchain + Anchor CLI
+
+Steps
+
+git clone https://github.com/YOUR_USER/Zeus.git
 cd Zeus
 pip install -e .
 
-# one-line deployment plan
-zeus deploy --intent "Launch a Solana NFT rental protocol with FastAPI backend"
-Zeus will:
+Usage Examples
 
-Parse intent with an LLM → produce an MCP TOML blueprint
+# generate and simulate a deployment
+zeus deploy --intent "Deploy a FastAPI backend with Solana NFT indexer"
 
-Scaffold a Rust workspace (Cargo.toml, src/lib.rs)
+# audit a wallet before launch
+zeus wallet-audit H7Us7PXnXJ...
 
-Run containerised dry-run build
+Outputs:
 
-(Optional) Deploy to Devnet and return a program ID
+Generated Dockerfile, compose, scripts
 
-3. Feature Matrix
-Category	Capability	Status	Docs
-LLM Conversion	Prompt → Docker + GitHub Actions	Stable	/docs/llm.md
-Dry-Run Simulator	Containerised build + log replay	Stable	/docs/simulator.md
-Solana Wallet Audit	Tx risk score & token map	Stable	/docs/solana.md
-Anchor Deployment	Compile & deploy smart contracts	Beta	/docs/anchor.md
-EVM Adapters	Hardhat/Forge pipeline	Alpha	/docs/evm.md
-Infra Exporters	Render / Railway / Akash scripts	Planned	Q4 2025
-Web Playground	Interactive config lab	Planned	Q1 2026
+Dry‑run build logs and health report
 
-4. System Architecture
-mermaid
-Copy
-Edit
-graph LR
-  subgraph CLI
-    A[User Prompt]
-  end
-  A -->|parse| B[LLM Planner]
-  B --> C[MCP Config]
-  C --> D[Dry-Run Simulator]
-  D -->|artifacts| E[Artifact Store]
-  C --> F[Chain Adapter]
-  F -->|deploy| G[Solana Devnet]
-  subgraph Audit
-    H[Wallet Scanner] --> B
-  end
-  D --> I[Report Engine]
-Each component is isolated; swap or extend via Python entry-points.
+Wallet fee burn, suspicious tx flags, token categorisation
 
-5. Folder Layout
-arduino
-Copy
-Edit
-Zeus/
-├─ cli/                    • Command-line entrypoints
-│  └─ main.py
-├─ agent_core/             • LLM planner, simulator, reporters
-├─ chain/
-│  ├─ solana/ deploy.py    • Devnet deployer
-│  └─ evm/    deploy.py    • Hardhat placeholder
-├─ tools/                  • Wallet audit, log cleaners, exporters
-├─ docs/                   • MkDocs pages
-├─ tests/                  • PyTest suite
-├─ pyproject.toml          • Build metadata
-└─ README.md               • (this file)
-6. Installation
-6.1 Requirements
-Python 3.10+
+Documentation
 
-Docker 20.10+ (for simulation)
+Full reference lives in the docs folder and is published automatically to GitHub Pages via the docs.yml workflow:
 
-rustup + nightly (for Anchor deployments)
+docs/llm.md – prompt grammar, planner description
 
-Solana CLI ≥ 1.17
+docs/simulator.md – container sandbox internals
 
-6.2 Steps
-bash
-Copy
-Edit
-pip install -r requirements.txt
-# optional agents
-pip install anchorpy solana
-7. CLI Reference
-Command	Description
-zeus deploy --intent "..."	
-zeus status • Show agent mood + deploy count	
-zeus wallet-audit <address> • Risk analysis & token summary	
-zeus simulate <plan.toml> • Dry-run existing MCP plan	
+docs/solana.md – RPC endpoints, audit heuristics
 
-8. Configuration
-File	Purpose
-config/zeus.toml	Global default env vars
-~/.config/zeus.*	User overrides
-.env	Loaded during simulation
+Run locally:
 
-Environment variables are resolved in the order: CLI flag → env → user config → global config.
+pip install mkdocs-material
+mkdocs serve
 
-9. Testing & Coverage
-bash
-Copy
-Edit
-pytest -q            # unit tests
-pytest --cov=zeus    # coverage report
-Coverage is uploaded to Codecov via CI.
+Roadmap
 
-10. Benchmarks
-Scenario	Cold build time	Dry-run time	Success rate
-FastAPI + Solana RPC	1m 40s	18 s	100%
-Next.js + Anchor SPL	2m 10s	22 s	97%
+Release
 
-Numbers recorded on M2 Pro / Docker 24 GB RAM.
+ETA
 
-11. Security Posture
-Sandboxed Simulation – Docker network none, seccomp default
+Highlights
 
-No Secrets Stored – uses runtime env injection only
+v0.5
 
-Wallet Audit – read-only RPC calls
+Aug 2025
 
-Planned – zk-proof deploy attestations (Q2 2026)
+Anchor full compile & Devnet deploy, Render exporter
 
-12. Roadmap
-Version	Target Date	Key Deliverables
-v0.5	Aug 2025	Anchor auto-deploy, Render exporter
-v0.6	Dec 2025	Web Playground GUI (Next.js + FastAPI)
-v1.0	Q2 2026	zk-Attested deploy flow, plugin marketplace, Cosmos adapter
+v0.6
 
-13. Contribution Guide (Short)
-Fork ➜ git checkout -b feat/<topic>
+Dec 2025
 
-Ensure pytest and pre-commit succeed
+Web playground GUI, railway integration
 
-Follow PEP 8 + Black
+v1.0
 
-Submit PR; include issue link, description, screenshots/logs
+Q2 2026
 
-Full rules in CONTRIBUTING.md.
+zk‑attested deploy flow, plugin marketplace, Cosmos adapter
 
-14. Troubleshooting
-Symptom	Fix
-Docker build hangs	Increase Docker memory to ≥ 4 GB
-RPC timeouts	Set SOLANA_RPC=https://api.mainnet-beta.solana.com
-LLM “rate limit”	Export OPENAI_API_KEY with higher quota account
+Contributing
 
-15. FAQ
-<details> <summary>Does Zeus deploy to mainnet?</summary>
-Devnet by default. Mainnet deployment requires --env=mainnet and a funded wallet.
+Fork → git checkout -b feat/<topic>
 
-</details> <details> <summary>Can I disable OpenAI usage?</summary>
-Set ZEUS_OFFLINE=1 and Zeus will generate stub configs without calling external APIs.
+Run pytest and pre‑commit
 
-</details> <details> <summary>How do I add a new chain?</summary>
-Create a new adapter in chain/<name>/deploy.py that implements deploy(plan).
+Follow Conventional Commits and Black formatting
 
-</details>
-16. License
-MIT License © 2025 crusagcomhe
-Commercial and OSS usage permitted with attribution.
+Submit PR with descriptive title + screenshots/logs
 
-17. Acknowledgements
-Anchor + Solana Labs DevRel for inspirations
+See CONTRIBUTING.md for full guidelines.
 
-OpenAI community for agent design ideas
+Security
 
-Contributors listed in AUTHORS.md
+Docker network set to none during simulation
 
-18. Contact
-GitHub issues > Discussions > Email (see profile). Collaboration proposals welcome.
+No secrets persisted – env vars passed at runtime only
+
+Wallet RPC is read‑only; no private‑key handling
+
+Planned: zk‑proof deploy attestations (Q2 2026)
+
+Troubleshooting
+
+Symptom
+
+Solution
+
+Docker build times out
+
+Increase Docker memory ≥ 4 GB
+
+RPC 429 rate limit
+
+Set custom RPC endpoint via SOLANA_RPC env
+
+LLM quota exceeded
+
+Export OPENAI_API_KEY with higher quota
+
+License
+
+MIT License © 2025 crusagcomhe
+
+Zeus is free for commercial and non‑commercial use with attribution.
+
