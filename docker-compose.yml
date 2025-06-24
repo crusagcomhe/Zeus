@@ -1,0 +1,7 @@
+version: "3.9"
+services:
+  zeus:
+    build: .
+    command: ["zeus", "status"]
+    volumes:
+      - .:/workspace:ro
