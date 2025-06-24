@@ -2,63 +2,57 @@
 
 Zeus – AI-Driven Web3 Deployment Framework
 
-Zeus is a Python-powered agent framework that turns plain-language requests into reproducible, verifiable Web3 deployments.  
+Zeus is a Python-powered agent framework that turns plain-language requests into reproducible, verifiable Web3 deployments.
 It combines local-first LLM planning, Solana integration, cryptographic state tracking, and modular chain adapters—all orchestrated by a lightweight simulation engine.
 
-Whether you are building persistent infrastructure bots, secure wallet auditors, or multi-chain deployment pipelines, Zeus offers a robust foundation for scaling intelligent DevOps with transparency and trust.
+Whether you’re building persistent infrastructure bots, secure wallet auditors, or multi-chain deployment pipelines, Zeus offers a robust foundation for scaling intelligent DevOps with transparency and trust.
 
----
+Overview
+Natural-language to infrastructure – parses prompts and outputs Docker / Terraform / Anchor stacks
 
-## Overview
+Cryptographic state proofs – every deployment plan and wallet audit is signed and hash-linked
 
-* **Natural-language to infrastructure**: Zeus parses prompts and outputs Docker / Terraform / Anchor stacks.  
-* **Cryptographic state proofs**: Every deployment plan and wallet audit is signed and hash-linked.  
-* **Chain-agnostic adapters**: Solana included; EVM and Cosmos modules are pluggable.  
-* **Local simulation**: Docker-sandboxed dry-runs validate builds before any on-chain action.  
-* **Agent modularity**: Components communicate via lightweight message bus—swap or extend with minimal code.
+Chain-agnostic adapters – Solana included; EVM and Cosmos modules are pluggable
 
----
+Local simulation – Docker-sandboxed dry-runs validate builds before any on-chain action
 
-## Core Capabilities
+Agent modularity – components communicate via lightweight message bus—swap or extend with minimal code
 
-| Capability | Description | Status |
-|------------|-------------|--------|
-| Cryptographic State Transitions | SHA-256 hashes + Ed25519 signatures for every plan revision | Stable |
-| Deployment Simulation Engine | Builds containers, checks ports, env vars, exit codes | Stable |
-| Wallet Risk Graph | Live Solana RPC audit: transfers, NFTs, spam detection | Stable |
-| Modular Chain Adapters | Plug-and-play adapters (`adapters/`) | Beta |
-| zk-Proof Export | Optional SNARK hash of deployment metadata | Prototype |
-| CLI + Python SDK | `zeus deploy`, `zeus wallet-audit`, `import zeus` | Stable |
+Core Capabilities
+Capability	Description	Status
+Cryptographic State Proofs	SHA-256 hashes + Ed25519 signatures for every plan revision	✅ Stable
+Deployment Simulation	Builds containers, checks ports, env vars, exit codes	✅ Stable
+Wallet Risk Graph	Live Solana RPC audit: transfers, NFTs, spam detection	✅ Stable
+Modular Chain Adapters	Plug-and-play adapters under adapters/	🔄 Beta
+zk-Proof Export	Optional SNARK hash of deployment metadata	🧪 Prototype
+CLI + Python SDK	zeus deploy, zeus wallet-audit, import zeus	✅ Stable
 
----
-
-## Folder Layout
-
-zeus/
-├── cli/ # Command-line entry points
-├── planner/ # Prompt → blueprint generator
-├── sandbox/ # Dry-run executor
-├── adapters/
-│ ├── solana/ # Solana deploy + wallet tools
-│ └── evm/ # EVM placeholder deployer
-├── zk/ # SNARK/zk integrations
-docs/ # Extended documentation
-tests/ # PyTest suite
-
-yaml
+Folder Layout
+csharp
 Copy
 Edit
+zeus/
+├── cli/                  # Command-line entry points
+├── planner/              # Prompt → blueprint generator
+├── sandbox/              # Dry-run executor
+├── adapters/
+│   ├── solana/           # Solana deploy + wallet tools
+│   └── evm/              # EVM placeholder deployer
+├── zk/                   # SNARK/zk integrations
+docs/                     # Extended documentation
+tests/                    # PyTest suite
+Getting Started
+Prerequisites
+Python 3.10 +
 
----
+Docker 20.10 +
 
-## Getting Started
+(Optional) Solana CLI for on-chain deployments
 
-### Prerequisites
-* Python 3.10+
-* Docker 20.10+
-* (Optional) Solana CLI for on-chain deployments
-
-```bash
+Installation
+bash
+Copy
+Edit
 git clone https://github.com/YOUR_USER/zeus.git
 cd zeus
 pip install -e .
@@ -72,7 +66,7 @@ zeus deploy --intent "launch a Solana NFT rental protocol"
 # Audit a wallet
 zeus wallet-audit <PUBLIC_KEY>
 Configuration
-Create .env (local overrides):
+Create a .env file:
 
 ini
 Copy
@@ -81,7 +75,7 @@ OPENAI_API_KEY=your_key
 SOLANA_RPC=https://api.devnet.solana.com
 Global defaults live in config/zeus.toml.
 
-Example code
+Example Code
 python
 Copy
 Edit
@@ -93,6 +87,8 @@ deployer = SolanaDeployer()
 result = deployer.deploy(plan)
 print(result["program_id"])
 State Transition Security
+Each plan revision is signed and verified for tamper resistance.
+
 python
 Copy
 Edit
@@ -101,21 +97,21 @@ class Proof:
     prev_hash: str       # Link to previous state
     signature: str       # Ed25519
     timestamp: int       # UTC epoch
-Each plan revision is appended to an audit log (state_logs/), ensuring an immutable history.
-        
 Roadmap
 Step	Target	Status
-Solana deployer v1	Q3 2025	Complete
-EVM adapter	Q4 2025	In progress
-zk-Proof export	Q1 2026	Prototype
-Web playground GUI	Q2 2026	Planned
+Solana deployer v1	Q3 2025	✅ Complete
+EVM adapter	Q4 2025	🔄 In progress
+zk-Proof export	Q1 2026	🧪 Prototype
+Web playground GUI	Q2 2026	🚧 Planned
 
 Contributing
-Fork → branch feat/<topic>
+Fork the repo
 
-Ensure pytest and black . pass
+Create a new branch: git checkout -b feat/<topic>
 
-Commit with Conventional-Commit message
+Write code + add tests
+
+Format: black . && pytest
 
 Open a pull request
 
@@ -125,4 +121,4 @@ Copy
 Edit
 pytest -q
 License
-MIT License – see LICENSE for full text.     
+MIT License – see LICENSE for full terms.
