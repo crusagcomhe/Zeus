@@ -1,3 +1,6 @@
+![photo_2025-06-23_22-35-37](https://github.com/user-attachments/assets/84d8bb21-7b75-4206-8465-2f41c21fbe4d)
+
+
 Zeus – Autonomous Web3 Deployment Agent
 
 Zeus is a groundbreaking local-first AI DevOps engine that translates natural language into secure, production-ready blockchain deployments. It integrates natively with Solana, is designed for modular extension to EVM and Cosmos, and includes security-first planning with zero-knowledge auditing. This repository is designed to meet the highest standards of open-source software—clear folder structure, complete dependency management, and clean documentation.
