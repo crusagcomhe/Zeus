@@ -1,3 +1,7 @@
 click
 openai
 solana
+
+echo "<paste TOML above>" > pyproject.toml
+echo -e "click\nopenai\nsolana" > requirements.txt
+git add pyproject.toml requirements.txt
