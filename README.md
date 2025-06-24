@@ -1,79 +1,85 @@
 ![photo_2025-06-23_22-35-37](https://github.com/user-attachments/assets/84d8bb21-7b75-4206-8465-2f41c21fbe4d)
 
-Zeus is a Python-powered agent framework that turns plain-language requests into reproducible, verifiable Web3 deployments.
-It combines local LLM planning, Solana integration, cryptographic state proofs, and modular chain adapters—all controlled by a lightweight simulation engine.
+Zeus – Autonomous AI Framework for Web3 Deployments
+Zeus is a Python-powered, agent-oriented DevOps framework that translates natural-language intents into verifiable, reproducible Web3 infrastructure.
+It combines local LLM planning, Solana deployment adapters, cryptographic state proofs, and containerised simulation—enabling teams to ship blockchain apps with confidence and speed.
 
-Whether you’re building persistent infrastructure bots, secure wallet auditors, or multi-chain deployment pipelines, Zeus provides a scalable foundation with transparency and trust.
+✨ Key Highlights
+Prompt → Infra – Describe your idea in English; Zeus returns Dockerfiles, Terraform, or Anchor projects.
 
-Overview
-Natural-language → infrastructure
+Cryptographic Audit Trail – Every plan revision is hash-linked and Ed25519-signed.
 
-Cryptographic state proofs (SHA-256 + Ed25519)
+Local Simulation – Docker sandbox prevents broken builds from reaching chain.
 
-Local container simulation before any chain interaction
+Multi-Chain Ready – Solana adapter included; EVM / Cosmos pluggable.
 
-Modular adapters – Solana today; EVM & Cosmos planned
+CLI & Python SDK – Automate via terminal or embed into larger systems.
 
-CLI & Python SDK for scripting and automation
+Optional zk-Proof Export – Produce SNARKs of deployment metadata for on-chain attestation.
 
-Core Capabilities
-Capability	Description	Status
-Cryptographic state proofs	Signed hash chain for every plan revision	✅ Stable
-Deployment simulation	Docker build, port/env checks, exit-code validation	✅ Stable
-Wallet risk graph	Live Solana RPC scan of transfers, NFTs, spam	✅ Stable
-Modular chain adapters	Plug-and-play in adapters/	🔄 Beta
-zk-Proof export	Optional SNARK hash of deploy metadata	🧪 Prototype
-CLI + SDK	zeus deploy, zeus wallet-audit, import zeus	✅ Stable
+🏗️ Architecture
+  A[User Prompt] --> B[LLM Planner]
+  B --> C[Blueprint JSON]
+  C --> D[Docker / Terraform Generator]
+  D --> E[Simulation Sandbox]
+  E -->|success| F[Chain Adapter]
+  F --> G[Solana DevNet]
+  C --> H[Cryptographic Proof Log]
+  H --> I[Optional zk-SNARK Export]
 
-Folder Layout
-text
-Copy
-Edit
-zeus/
-├── cli/            # Command-line commands
-├── planner/        # Prompt → blueprint
-├── sandbox/        # Dry-run executor
-├── adapters/
-│   ├── solana/     # Solana deploy + wallet tools
-│   └── evm/        # EVM placeholder
-├── zk/             # SNARK integrations
-docs/               # Additional documentation
-tests/              # PyTest suite
-Getting Started
+  🛠️ Installation
 Prerequisites
-Python 3.10+
+Tool	Version
+Python	3.10 or newer
+Docker	20.10 or newer
+(Optional) Solana CLI	≥ 1.17
 
-Docker 20.10+
-
-(Optional) Solana CLI
-
-Installation
+Steps
 bash
-Copy
-Edit
 git clone https://github.com/YOUR_USER/zeus.git
 cd zeus
 pip install -e .
-Quickstart
+
+🚀 Quickstart
 bash
 Copy
 Edit
-# Prompt → Solana DevNet deploy
-zeus deploy --intent "launch a Solana NFT rental protocol"
+# Natural-language deploy (Solana DevNet)
+zeus deploy --intent "launch a Solana NFT rental protocol with FastAPI backend"
 
-# Audit a wallet
-zeus wallet-audit YOUR_PUBLIC_KEY
-Configuration
-Create .env:
+# Wallet risk audit
+zeus wallet-audit 9gF...9kQ
+What you’ll see:
+
+Blueprint JSON printed to terminal
+
+Simulation logs (build, health-check)
+
+program_id if deployment succeeds
+
+⚙️ Configuration
+Source	Priority
+CLI flag	Highest
+.env file	Medium
+config/zeus.toml	Fallback
+
+.env example:
 
 dotenv
 Copy
 Edit
-OPENAI_API_KEY=your_key_here
+OPENAI_API_KEY=sk-...
 SOLANA_RPC=https://api.devnet.solana.com
-Global defaults live in config/zeus.toml.
+🖥️ CLI Reference
+Command	Purpose
+zeus deploy --intent "<text>"	Generate + deploy
+zeus simulate blueprint.json	Dry-run an existing blueprint
+zeus wallet-audit <pubkey>	Risk graph on Solana wallet
+zeus status	Show agent version and cache stats
 
-Example Code
+See --help on any command for full flags.
+
+🐍 Python SDK Example
 python
 Copy
 Edit
@@ -83,38 +89,48 @@ from adapters.solana.deploy import SolanaDeployer
 plan = generate_plan("deploy FastAPI backend on Solana devnet")
 deployer = SolanaDeployer()
 result = deployer.deploy(plan)
-print(result["program_id"])
-State Proof Schema
+print("Program ID:", result["program_id"])
+🔏 State-Proof Schema
 python
 Copy
 Edit
 class Proof:
-    state_hash: str   # SHA-256 of blueprint JSON
-    prev_hash: str    # Link to previous state
-    signature: str    # Ed25519 signature
-    timestamp: int    # UTC epoch
-Roadmap
-Milestone	Target	Status
+    state_hash: str     # SHA-256 of blueprint JSON
+    prev_hash: str      # Link to previous state
+    signature: str      # Ed25519
+    timestamp: int      # UTC epoch
+Proof objects are appended to state_logs/ for an immutable audit trail.
+
+🛣️ Roadmap
+Milestone	ETA	Status
 Solana deployer v1	Q3 2025	✅ Complete
 EVM adapter	Q4 2025	🔄 In progress
 zk-Proof export	Q1 2026	🧪 Prototype
 Web GUI playground	Q2 2026	🚧 Planned
 
-Contributing
-Fork the repo
+🔐 Security Model
+Local-first – LLM calls can run offline with a local model flag.
 
-Create a branch: git checkout -b feat/<topic>
+Sandboxed – Simulation containers run with network disabled.
 
-Run black . && pytest
+Signed Proofs – Ed25519 keys sign every blueprint.
 
-Commit with Conventional Commit style
+Pluggable SNARK – Export proof root for on-chain verification (optional).
 
-Open a pull request
+🧩 Troubleshooting
+Issue	Fix
+Docker build hangs	Increase Docker memory to 6 GB
+OPENAI_API_KEY error	Ensure key in .env or CLI flag
+Wallet RPC timeout	Switch to a faster endpoint (e.g., https://solana-api.projectserum.com)
 
-Testing
-bash
-Copy
-Edit
-pytest -q
-License
-MIT License — see LICENSE for full terms.
+🤝 Contributing
+Fork → branch → PR.
+
+Follow Black + ruff style (pre-commit run --all-files).
+
+Add/modify tests (pytest).
+
+Update docs/ if CLI surface changes.
+
+📜 License
+MIT License — see LICENSE for details.
