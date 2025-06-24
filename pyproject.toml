@@ -1,0 +1,17 @@
+[project]
+name = "zeus"
+version = "0.1.0"
+description = "LLM-powered local agent for Solana/EVM deployments"
+authors = [{name = "crusagcomhe", email = "12345678+crusagcomhe@users.noreply.github.com"}]
+readme = "README.md"
+requires-python = ">=3.10"
+
+[project.dependencies]
+openai = "*"
+solana = "*"
+click = "*"
+rich = "*"
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
