@@ -113,3 +113,4 @@ if __name__ == "__main__":
     out = Path.cwd() / f"{args.wallet[:6]}_index.json"
     out.write_text(json.dumps(data, indent=2))
     print(f"Indexed {len(data)} txs → {out}") 
+,
