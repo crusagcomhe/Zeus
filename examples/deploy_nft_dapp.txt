@@ -1,0 +1,1 @@
+Deploy a Solana NFT rental protocol with a FastAPI backend and IPFS pinning.
