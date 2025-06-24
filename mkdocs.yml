@@ -1,0 +1,9 @@
+site_name: Zeus
+theme: material
+nav:
+  - Home: index.md
+  - CLI: cli.md
+  - Architecture: architecture.md
+  - Adapters:
+      - Solana: adapters/solana.md
+      - EVM: adapters/evm.md
