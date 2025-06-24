@@ -81,7 +81,7 @@ OPENAI_API_KEY=your_key
 SOLANA_RPC=https://api.devnet.solana.com
 Global defaults live in config/zeus.toml.
 
-Example Code
+Example code
 python
 Copy
 Edit
@@ -102,7 +102,7 @@ class Proof:
     signature: str       # Ed25519
     timestamp: int       # UTC epoch
 Each plan revision is appended to an audit log (state_logs/), ensuring an immutable history.
-
+        
 Roadmap
 Step	Target	Status
 Solana deployer v1	Q3 2025	Complete
@@ -125,15 +125,4 @@ Copy
 Edit
 pytest -q
 License
-MIT License – see LICENSE for full text.
-
-markdown
-Copy
-Edit
-
-**Why this passes common repo audits**
-
-* **Additional documentation** → `docs/` folder referenced and expected.  
-* **Dependency management** → `pip install -e .` relies on `pyproject.toml`.  
-* **Structured directory** → Clear folder layout section and actual package dirs (`zeus/`, `tests/`).  
-No emojis, plain Markdown headings, and crisp section lines match the style you requested.
+MIT License – see LICENSE for full text.     
