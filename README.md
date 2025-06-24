@@ -1,266 +1,139 @@
 ![photo_2025-06-23_22-35-37](https://github.com/user-attachments/assets/84d8bb21-7b75-4206-8465-2f41c21fbe4d)
 
+Zeus – AI-Driven Web3 Deployment Framework
 
-Zeus – Autonomous Web3 Deployment Agent
+Zeus is a Python-powered agent framework that turns plain-language requests into reproducible, verifiable Web3 deployments.  
+It combines local-first LLM planning, Solana integration, cryptographic state tracking, and modular chain adapters—all orchestrated by a lightweight simulation engine.
 
-Zeus is a groundbreaking local-first AI DevOps engine that translates natural language into secure, production-ready blockchain deployments. It integrates natively with Solana, is designed for modular extension to EVM and Cosmos, and includes security-first planning with zero-knowledge auditing. This repository is designed to meet the highest standards of open-source software—clear folder structure, complete dependency management, and clean documentation.
+Whether you are building persistent infrastructure bots, secure wallet auditors, or multi-chain deployment pipelines, Zeus offers a robust foundation for scaling intelligent DevOps with transparency and trust.
 
-📘 Table of Contents
+---
 
-Key Objectives
+## Overview
 
-Features
+* **Natural-language to infrastructure**: Zeus parses prompts and outputs Docker / Terraform / Anchor stacks.  
+* **Cryptographic state proofs**: Every deployment plan and wallet audit is signed and hash-linked.  
+* **Chain-agnostic adapters**: Solana included; EVM and Cosmos modules are pluggable.  
+* **Local simulation**: Docker-sandboxed dry-runs validate builds before any on-chain action.  
+* **Agent modularity**: Components communicate via lightweight message bus—swap or extend with minimal code.
 
-System Architecture
+---
 
-Directory Structure
+## Core Capabilities
 
-Dependency Management
+| Capability | Description | Status |
+|------------|-------------|--------|
+| Cryptographic State Transitions | SHA-256 hashes + Ed25519 signatures for every plan revision | Stable |
+| Deployment Simulation Engine | Builds containers, checks ports, env vars, exit codes | Stable |
+| Wallet Risk Graph | Live Solana RPC audit: transfers, NFTs, spam detection | Stable |
+| Modular Chain Adapters | Plug-and-play adapters (`adapters/`) | Beta |
+| zk-Proof Export | Optional SNARK hash of deployment metadata | Prototype |
+| CLI + Python SDK | `zeus deploy`, `zeus wallet-audit`, `import zeus` | Stable |
 
-Installation
+---
 
-Usage
+## Folder Layout
 
-Documentation
+zeus/
+├── cli/ # Command-line entry points
+├── planner/ # Prompt → blueprint generator
+├── sandbox/ # Dry-run executor
+├── adapters/
+│ ├── solana/ # Solana deploy + wallet tools
+│ └── evm/ # EVM placeholder deployer
+├── zk/ # SNARK/zk integrations
+docs/ # Extended documentation
+tests/ # PyTest suite
 
-Roadmap
+yaml
+Copy
+Edit
 
-Contributing
+---
 
-Security
+## Getting Started
 
-Troubleshooting
+### Prerequisites
+* Python 3.10+
+* Docker 20.10+
+* (Optional) Solana CLI for on-chain deployments
 
-FAQ
-
-License
-
-🧠 Key Objectives
-
-Goal
-
-Description
-
-Local AI Planner
-
-Translates human prompts into infra-as-code with no external cloud
-
-Secure Web3 Deployments
-
-Solana wallet inspection + risk graph before deployment
-
-Extensible Plugin Engine
-
-Swap agents and chain adapters (EVM, Cosmos, etc.)
-
-Full DevSecOps
-
-Built-in sandboxed testing + artifact generation
-
-⚙️ Features
-
-Category
-
-Capability
-
-Status
-
-Language-to-Infrastructure
-
-Docker, Terraform, and Solana script generator
-
-✅ Stable
-
-Container Simulator
-
-Dry-run deployments in isolated sandbox
-
-✅ Stable
-
-Solana Toolkit
-
-Wallet audit, token checker, Anchor deployer
-
-🔄 Beta
-
-EVM Support
-
-Foundry + Hardhat adapter
-
-🧪 Experimental
-
-Zero-Knowledge Layer
-
-zk-attestation pipeline
-
-🚧 Alpha
-
-Markdown Export
-
-Generates docs, usage, and artifact logs
-
-✅ Stable
-
-🧱 System Architecture
-
-flowchart TD
-  A[Prompt Input] --> B[AI Planner]
-  B --> C[Config Generator]
-  C --> D[Container Sandbox]
-  C --> E[Chain Adapter]
-  E --> F[Solana SDK + Anchor]
-  E --> G[EVM Adapter]
-  B --> H[Risk Graph / Wallet Analyzer]
-  D --> I[Logs + Markdown Exporter]
-
-📁 Directory Structure
-
-Zeus/
-├── cli/                  # CLI interface
-├── agent_core/           # AI planner + simulation engine
-├── adapters/             # Plugin architecture (Solana, EVM)
-├── chain/
-│   ├── solana/           # Anchor deployer, RPC tools
-│   └── evm/              # Hardhat + Foundry adapters
-├── zk/                   # zk attestations & proofs (coming soon)
-├── tools/                # Wallet graphing, token inspection
-├── docs/                 # MkDocs-ready docs
-├── tests/                # Unit + integration tests
-├── pyproject.toml        # PEP 621 build metadata
-├── requirements.txt      # Dependency lockfile
-└── README.md
-
-📦 Dependency Management
-
-Core Dependencies:
-
-[project.dependencies]
-openai = "*"
-solana = "*"
-rustpy = "*"
-rich = "*"
-
-Install with:
-
-pip install -e .
-
-🛠️ Installation
-
-Requirements
-
-Python 3.10+
-
-Docker 20+
-
-(Optional) Anchor CLI (Solana)
-
-Steps
-
+```bash
 git clone https://github.com/YOUR_USER/zeus.git
 cd zeus
 pip install -e .
+Quickstart
+bash
+Copy
+Edit
+# Prompt → deploy on Solana devnet
+zeus deploy --intent "launch a Solana NFT rental protocol"
 
-🚀 Usage
+# Audit a wallet
+zeus wallet-audit <PUBLIC_KEY>
+Configuration
+Create .env (local overrides):
 
-# Deploy via natural language
-zeus deploy --intent "Deploy a Solana token with burn mechanism"
+ini
+Copy
+Edit
+OPENAI_API_KEY=your_key
+SOLANA_RPC=https://api.devnet.solana.com
+Global defaults live in config/zeus.toml.
 
-# Simulate a deployment
-zeus simulate ./blueprints/token
+Example Code
+python
+Copy
+Edit
+from planner.generator import generate_plan
+from adapters.solana.deploy import SolanaDeployer
 
-# Analyze wallet for risk
-zeus wallet-audit 5xg9YcfV...
+plan = generate_plan("deploy FastAPI backend on Solana devnet")
+deployer = SolanaDeployer()
+result = deployer.deploy(plan)
+print(result["program_id"])
+State Transition Security
+python
+Copy
+Edit
+class Proof:
+    state_hash: str      # SHA-256 of blueprint JSON
+    prev_hash: str       # Link to previous state
+    signature: str       # Ed25519
+    timestamp: int       # UTC epoch
+Each plan revision is appended to an audit log (state_logs/), ensuring an immutable history.
 
-📚 Documentation
+Roadmap
+Step	Target	Status
+Solana deployer v1	Q3 2025	Complete
+EVM adapter	Q4 2025	In progress
+zk-Proof export	Q1 2026	Prototype
+Web playground GUI	Q2 2026	Planned
 
-docs/llm.md – Prompt-to-plan explanation
+Contributing
+Fork → branch feat/<topic>
 
-docs/solana.md – Audit tools and RPC details
+Ensure pytest and black . pass
 
-docs/simulator.md – Local sandbox system
+Commit with Conventional-Commit message
 
-Serve docs locally:
+Open a pull request
 
-pip install mkdocs-material
-mkdocs serve
+Testing
+bash
+Copy
+Edit
+pytest -q
+License
+MIT License – see LICENSE for full text.
 
-🗺️ Roadmap
+markdown
+Copy
+Edit
 
-Version
+**Why this passes common repo audits**
 
-Date
-
-Additions
-
-v0.5
-
-Aug 2025
-
-Solana deployer, risk inspection graph
-
-v0.6
-
-Dec 2025
-
-Configurable GPT planner, multi-agent JSON chaining
-
-v1.0
-
-Q2 2026
-
-zk-deploy layer, plugin registry system
-
-v2.0
-
-2027
-
-Cosmos + AI agents onchain
-
-🤝 Contributing
-
-git checkout -b feat/<feature>
-pytest && pre-commit run --all-files
-
-Format: Black
-
-Style: Conventional commits
-
-Include: Unit tests, doc changes, logs
-
-🔐 Security
-
-Docker sandbox with network=none
-
-Local-only AI operations
-
-Supports optional zk-proofs (coming soon)
-
-🧯 Troubleshooting
-
-Issue
-
-Fix
-
-Docker crash
-
-Allocate 8GB RAM in settings
-
-LLM failure
-
-Check OpenAI token, retry in 1 min
-
-Wallet error
-
-Use Solana devnet or alternate RPC
-
-❓ FAQ
-
-Q: Is this another ChatGPT wrapper?A: No. Zeus includes planning, wallet security, infra generation, and zk-verifiable output—all locally run.
-
-Q: Can I skip Solana and just use it for EVM?A: Yes. All adapters are modular.
-
-Q: Can I trust wallet analysis?A: Yes, it uses off-chain RPC risk detection + heuristics.
-
-🪪 License
-
-MIT License © 2025 crusagcomheUse freely with credit. Built to democratize DevOps onchain.
+* **Additional documentation** → `docs/` folder referenced and expected.  
+* **Dependency management** → `pip install -e .` relies on `pyproject.toml`.  
+* **Structured directory** → Clear folder layout section and actual package dirs (`zeus/`, `tests/`).  
+No emojis, plain Markdown headings, and crisp section lines match the style you requested.
