@@ -1,0 +1,33 @@
+{
+  "agent_name": "ZeusDeploy",
+  "model_provider": "openai",
+  "model_config": {
+    "openai": {
+      "model": "gpt-4",
+      "api_key_env": "OPENAI_API_KEY"
+    },
+    "anthropic": {
+      "model": "claude-3-opus-20240229",
+      "api_key_env": "ANTHROPIC_API_KEY"
+    },
+    "local": {
+      "model": "llama-3",
+      "host": "http://localhost:11434",
+      "context_window": 4096
+    }
+  },
+  "chain": "solana",
+  "mode": "deploy",
+  "wallet_audit": true,
+  "zk_attest": false,
+  "memory": {
+    "enabled": true,
+    "max_tokens": 2048
+  },
+  "tools": [
+    "deployment_simulator",
+    "wallet_checker",
+    "markdown_export"
+  ],
+  "description": "Agent to simulate and deploy secure Web3 infrastructure using Solana or EVM chains."
+}
